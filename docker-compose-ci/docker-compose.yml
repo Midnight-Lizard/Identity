@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  midnightlizard.web.identity:
+    image: midnightlizard.web.identity
+    build:
+      context: ./MidnightLizard.Web.Identity
+      dockerfile: Dockerfile
