@@ -4,5 +4,5 @@ services:
   midnightlizard.web.identity:
     image: midnightlizard.web.identity
     build:
-      context: ./MidnightLizard.Web.Identity
+      context: ../app
       dockerfile: Dockerfile
