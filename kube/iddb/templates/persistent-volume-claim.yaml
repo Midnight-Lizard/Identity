@@ -1,19 +1,18 @@
-kind: PersistentVolume
+kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ template "name" . }}-pv
+  name: {{ template "name" . }}-pvc
   labels:
-    iddb: v1
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  capacity:
-    storage: 2Gi
   accessModes:
     - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
-  gcePersistentDisk:
-    pdName: {{ .Values.volume.pdName }}
-    fsType: ext4
+  resources:
+    requests:
+      storage: 2Gi
+  selector:
+    matchLabels:
+      iddb: v1
