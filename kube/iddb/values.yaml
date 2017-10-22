@@ -16,12 +16,12 @@ service:
   externalPort: 5432
   internalPort: 5432
 livenessProbe:
-  command: [pg_isready, -h, $POD_IP ]
+  command: [ sh, -c, pg_isready -h $POD_IP ]
   delay: 60
   period: 50
   timeout: 10
 readinessProbe:
-  command: [pg_isready, -h, $POD_IP ]
+  command: [ sh, -c, pg_isready -h $POD_IP ]
   delay: 30
   period: 20
   timeout: 5
