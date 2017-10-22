@@ -6,6 +6,10 @@ antiAffinity:
   apps:
     - portal
     - schemes
+affinity:
+  weight: 100
+  apps:
+    - iddb
 service:
   name: identity
   type: NodePort

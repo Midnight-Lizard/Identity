@@ -20,19 +20,6 @@ spec:
         release: {{ .Release.Name }}
     spec:
       affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: {{ .Values.antiAffinity.weight }}
-              podAffinityTerm:
-                topologyKey: "kubernetes.io/hostname"
-                labelSelector:
-                  matchExpressions:
-                    - key: app
-                      operator: In
-                      values:
-                        {{- range .Values.antiAffinity.apps }}
-                        - {{ . }}
-                        {{- end }}
         podAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: {{ .Values.affinity.weight }}
@@ -44,6 +31,19 @@ spec:
                       operator: In
                       values:
                         {{- range .Values.affinity.apps }}
+                        - {{ . }}
+                        {{- end }}
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: {{ .Values.antiAffinity.weight }}
+              podAffinityTerm:
+                topologyKey: "kubernetes.io/hostname"
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        {{- range .Values.antiAffinity.apps }}
                         - {{ . }}
                         {{- end }}
       restartPolicy: Always
