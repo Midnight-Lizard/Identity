@@ -59,13 +59,19 @@ spec:
             periodSeconds: {{ .Values.livenessProbe.period }}
             timeoutSeconds: {{ .Values.livenessProbe.timeout }}
             exec:
-              command: {{ .Values.livenessProbe.command }}
+              command:
+                - sh
+                - -c
+                - exec pg_isready --host $POD_IP
           readinessProbe:
             initialDelaySeconds: {{ .Values.readinessProbe.delay }}
             periodSeconds: {{ .Values.readinessProbe.period }}
             timeoutSeconds: {{ .Values.readinessProbe.timeout }}
             exec:
-              command: {{ .Values.readinessProbe.command }}
+              command:
+                - sh
+                - -c
+                - exec pg_isready --host $POD_IP
           volumeMounts:
             - name: persistent-storage
               mountPath: {{ .Values.volume.mountPath | quote }}
