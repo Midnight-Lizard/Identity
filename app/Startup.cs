@@ -28,6 +28,7 @@ namespace MidnightLizard.Web.Identity
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetValue<string>("IDDB_CONNECTION");
+            Console.WriteLine(connectionString);
             services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
