@@ -1,10 +1,11 @@
 #===========================================#
 #				PROJECT	BUILD				#
 #===========================================#
-FROM microsoft/aspnetcore-build:2 as proj-build
-COPY . /build
+FROM microsoft/aspnetcore-build:2 as dotnet-build
+COPY *.csproj /build/
 WORKDIR /build
 RUN dotnet restore
+COPY . .
 RUN dotnet publish -c Release -o ./results
 
 #===========================================#
@@ -13,5 +14,5 @@ RUN dotnet publish -c Release -o ./results
 FROM microsoft/aspnetcore:2 as image
 WORKDIR /app
 EXPOSE 80
-COPY --from="proj-build" /build/results .
+COPY --from="dotnet-build" /build/results .
 ENTRYPOINT ["dotnet", "MidnightLizard.Web.Identity.dll"]
