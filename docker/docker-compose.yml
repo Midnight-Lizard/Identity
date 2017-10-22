@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  midnightlizard.web.identity:
-    image: midnightlizard.web.identity
+  identity:
+    image: identity
     build:
       context: ../app
       dockerfile: Dockerfile

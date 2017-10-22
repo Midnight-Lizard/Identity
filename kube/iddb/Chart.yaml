@@ -1,0 +1,4 @@
+apiVersion: v1
+description: Midnight Lizard Identity Server database
+name: iddb
+version: 0.1.0

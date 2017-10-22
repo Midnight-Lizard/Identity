@@ -2,7 +2,7 @@ using System;
 
 namespace MidnightLizard.Web.Identity.Models
 {
-    public class ErrorViewModel
+    public class StandardErrorViewModel
     {
         public string RequestId { get; set; }
 

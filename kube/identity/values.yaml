@@ -1,0 +1,29 @@
+# Default values for identity.
+replicaCount: 1
+image: identity:latest
+antiAffinity:
+  weight: 100
+  apps:
+    - portal
+    - schemes
+service:
+  name: identity
+  type: NodePort
+  externalPort: 80
+  internalPort: 80
+livenessProbe:
+  path: /status/isalive
+  delay: 60
+  period: 50
+  timeout: 10
+readinessProbe:
+  command: /status/isready
+  delay: 30
+  period: 20
+  timeout: 5
+env:
+  ENV: prod
+  NODE_ENV: production
+  ASPNETCORE_ENVIRONMENT: Production
+  PORTAL_URL: http://midnight-lizard.online
+  SCHEMES_URL: http://schemes.midnight-lizard.online

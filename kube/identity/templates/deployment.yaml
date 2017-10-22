@@ -1,0 +1,90 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "name" . }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: {{ template "name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: {{ .Values.antiAffinity.weight }}
+              podAffinityTerm:
+                topologyKey: "kubernetes.io/hostname"
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        {{- range .Values.antiAffinity.apps }}
+                        - {{ . }}
+                        {{- end }}
+        podAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: {{ .Values.affinity.weight }}
+              podAffinityTerm:
+                topologyKey: "kubernetes.io/hostname"
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        {{- range .Values.affinity.apps }}
+                        - {{ . }}
+                        {{- end }}
+      restartPolicy: Always
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.image | quote }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: {{ .Values.service.internalPort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.path }}
+              port: {{ .Values.service.internalPort }}
+            initialDelaySeconds: {{ .Values.livenessProbe.delay }}
+            periodSeconds: {{ .Values.livenessProbe.period }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeout }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.path }}
+              port: {{ .Values.service.internalPort }}
+            initialDelaySeconds: {{ .Values.readinessProbe.delay }}
+            periodSeconds: {{ .Values.readinessProbe.period }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeout }}
+          env:
+            - name: IDDB_CONNECTION
+              valueFrom:
+                secretKeyRef:
+                  name: iddb-secret
+                  key: connection
+            - name: GOOGLE_CLIENTID
+              valueFrom:
+                secretKeyRef:
+                  name: auth-google-secret
+                  key: clientId
+            - name: GOOGLE_CLIENTSECRET
+              valueFrom:
+                secretKeyRef:
+                  name: auth-google-secret
+                  key: clientSecret
+            {{- range $key, $val := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end }}

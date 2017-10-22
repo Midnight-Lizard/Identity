@@ -1,0 +1,4 @@
+apiVersion: v1
+description: Midnight Lizard Identity Server
+name: identity
+version: 0.1.0

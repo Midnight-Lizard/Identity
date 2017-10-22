@@ -1,0 +1,69 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: identity
+  name: identity
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: identity
+  template:
+    metadata:
+      labels:
+        app: identity
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: context
+                  operator: In
+                  values:
+                  - portal
+                  - schemes
+              topologyKey: "kubernetes.io/hostname"
+      containers:
+      - image: postgres
+        name: iddb
+        ports:
+          - containerPort: 5432
+            protocol: TCP
+        env:
+        - name: POSTGRES_DB
+          value: iddb
+        - name: POSTGRES_USER
+          value: postgres
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        volumeMounts:
+        - name: postgres-persistent-storage
+          mountPath: /var/lib/postgresql/data
+      - image: us.gcr.io/midnight-lizard/identity:8
+        name: identity
+        ports:
+          - containerPort: 80
+            protocol: TCP
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Production
+        - name: ENV
+          value: prod
+        - name: NODE_ENV
+          value: production
+        - name: PORTAL_URL
+          value: http://midnight-lizard.online
+        - name: SCHEMES_URL
+          value: http://schemes.midnight-lizard.online
+      restartPolicy: Always
+      volumes:
+      - name: postgres-persistent-storage
+        persistentVolumeClaim:
+          claimName: iddb-pvc
