@@ -74,7 +74,7 @@ spec:
                 - exec pg_isready --host $POD_IP
           volumeMounts:
             - name: persistent-storage
-              mountPath: {{ .Values.volume.mountPath | quote }}
+              mountPath: {{ .Values.volumeMountPath | quote }}
           env:
             - name: POSTGRES_PASSWORD
               valueFrom:

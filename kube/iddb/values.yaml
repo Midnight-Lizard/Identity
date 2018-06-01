@@ -1,6 +1,7 @@
 # Default values for iddb.
 replicaCount: 1
 image: postgres
+volumeMountPath: /var/lib/postgresql/data
 antiAffinity:
   weight: 100
   apps:
@@ -25,9 +26,6 @@ readinessProbe:
   delay: 30
   period: 20
   timeout: 5
-volume:
-  mountPath: /var/lib/postgresql/data
-  pdName: iddb-disk
 env:
   POSTGRES_DB: iddb
   POSTGRES_USER: postgres

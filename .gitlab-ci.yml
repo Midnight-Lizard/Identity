@@ -3,8 +3,8 @@ services:
 - docker:dind
 variables:
   DOCKER_DRIVER: overlay
-  PROJ: identity
   GROUP: midnight-lizard
+  PROJ: identity
 
 docker-build:
   stage: build
@@ -23,7 +23,8 @@ gce-deploy:
   script:
   - chmod +x ./shell/gcloud-config.sh
   - chmod +x ./shell/helm-deploy.sh
-  - ./shell/gcloud-config.sh -k "$GCE_KEY" -z "$GCE_CLUSTER_ZONE" -p "$GROUP" -c "$GCE_CLUSTER_NAME"
+  - ./shell/gcloud-config.sh -k "$GCE_KEY" -z "$GCE_CLUSTER_ZONE" -p "$GCE_PROJECT" -c "$GCE_CLUSTER_NAME"
   - curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+  - ./shell/helm-deploy.sh -r "iddb-data" -c "./kube/persistence/gce" --set name=iddb
   - ./shell/helm-deploy.sh -i "postgres" -r "iddb" -c "./kube/iddb"
   - ./shell/helm-deploy.sh -i "$CI_REGISTRY/$GROUP/$PROJ:$CI_PIPELINE_ID" -r "$PROJ" -c "./kube/$PROJ"

@@ -15,5 +15,5 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
   gcePersistentDisk:
-    pdName: {{ .Values.volume.pdName }}
+    pdName: {{ .Values.pdName }}
     fsType: ext4

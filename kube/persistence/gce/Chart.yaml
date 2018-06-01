@@ -1,0 +1,4 @@
+apiVersion: v1
+description: Midnight Lizard Identity Server persistence
+name: persistence
+version: 0.1.0

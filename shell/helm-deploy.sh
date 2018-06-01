@@ -4,6 +4,7 @@ while [ "$1" != "" ]; do
     case $1 in
         -i | --image)
             IMAGE=$2
+            SET="$SET --set image=$2"
             ;;
         -r | --release)
             RELEASE=$2
@@ -22,4 +23,4 @@ while [ "$1" != "" ]; do
     shift 2
 done
 echo "IMAGE = $IMAGE; RELEASE = $RELEASE; CHART = $CHART; SET = [$SET]"
-helm upgrade --install --set image=$IMAGE$SET $RELEASE $CHART
+helm upgrade --install$SET $RELEASE $CHART
