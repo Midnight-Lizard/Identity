@@ -1,0 +1,14 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: iddb-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: iddb-sc
+  resources:
+    requests:
+      storage: 20Mi
+  selector:
+    matchLabels:
+      iddb: v1

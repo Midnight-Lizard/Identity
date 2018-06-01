@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MidnightLizard.Web.Identity.Configuration
 {
-    public class Resources
+    public static class Resources
     {
         // scopes define the resources in your system
         public static IEnumerable<IdentityResource> GetIdentityResources()
@@ -24,8 +24,15 @@ namespace MidnightLizard.Web.Identity.Configuration
         {
             return new List<ApiResource>
             {
-                new ApiResource("SchemesApi", "MidnightLizard Schemes Api")
+                new ApiResource(Api.SchemesCommander, "MidnightLizard Color Schemes Commander Api"),
+                new ApiResource(Api.SchemesQuerier, "MidnightLizard Color Schemes Querier Api")
             };
+        }
+
+        public static class Api
+        {
+            public static readonly string SchemesCommander = "schemes-commander";
+            public static readonly string SchemesQuerier = "schemes-querier";
         }
     }
 }

@@ -72,7 +72,8 @@ namespace MidnightLizard.Web.Identity.Configuration
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Email,
-                        "SchemesApi"
+                        Resources.Api.SchemesCommander,
+                        Resources.Api.SchemesQuerier
                     }
                 }
             };

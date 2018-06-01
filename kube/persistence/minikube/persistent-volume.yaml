@@ -1,0 +1,16 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: iddb-pv
+  labels:
+    iddb: v1
+    type: local
+spec:
+  capacity:
+    storage: 20Mi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: iddb-sc
+  hostPath:
+    path: "/mnt/data/iddb"
