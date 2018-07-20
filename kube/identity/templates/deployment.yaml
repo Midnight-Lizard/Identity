@@ -69,6 +69,11 @@ spec:
             periodSeconds: {{ .Values.readinessProbe.period }}
             timeoutSeconds: {{ .Values.readinessProbe.timeout }}
           env:
+            - name: PORTAL_AUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: portal-secret
+                  key: auth-secret
             - name: IDDB_CONNECTION
               valueFrom:
                 secretKeyRef:

@@ -13,8 +13,9 @@ namespace MidnightLizard.Web.Identity.Configuration
         public static IEnumerable<Client> Get(IConfiguration configuration)
         {
             var portalUrl = configuration.GetValue<string>("PORTAL_URL");
+            var portalAuthSecret = new Secret(configuration.GetValue<string>("PORTAL_AUTH_SECRET").Sha256());
             var portalUri = new Uri(portalUrl);
-           
+
             return new List<Client>
             {
                 new Client
@@ -57,14 +58,59 @@ namespace MidnightLizard.Web.Identity.Configuration
                     AccessTokenType = AccessTokenType.Jwt,
 
                     RedirectUris = {
-                         new Uri(portalUri,"silentsignedin").AbsoluteUri,
-                         new Uri(portalUri,"signedin").AbsoluteUri,
-                         new Uri(portalUri,"signin-oidc").AbsoluteUri
+                         new Uri(portalUri, "silentsignedin").AbsoluteUri,
+                         new Uri(portalUri, "signedin").AbsoluteUri,
+                         new Uri(portalUri, "signin-oidc").AbsoluteUri
                     },
-                    FrontChannelLogoutUri = new Uri(portalUri,"signout-oidc").AbsoluteUri,
+                    FrontChannelLogoutUri = new Uri(portalUri, "signout-oidc").AbsoluteUri,
                     PostLogoutRedirectUris = {
-                         new Uri(portalUri,"signedout").AbsoluteUri,
-                         new Uri(portalUri,"signout-callback-oidc").AbsoluteUri
+                         new Uri(portalUri, "signedout").AbsoluteUri,
+                         new Uri(portalUri, "signout-callback-oidc").AbsoluteUri
+                    },
+                    AllowedCorsOrigins = { portalUrl },
+
+                    AllowedScopes = {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        Resources.Api.SchemesCommander,
+                        Resources.Api.SchemesQuerier
+                    }
+                },
+
+                new Client
+                {
+                    ClientId = "portal-server",
+                    ClientName = "Midnight Lizard Web Portal",
+                    ClientUri = portalUrl,
+                    LogoUri = "https://pbs.twimg.com/profile_images/806483891771076610/vX_54HlQ_400x400.jpg",
+
+                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    AllowAccessTokensViaBrowser = false,
+                    AlwaysIncludeUserClaimsInIdToken = true,
+                    RequireClientSecret = true,
+                    ClientSecrets = { portalAuthSecret },
+                    RequireConsent = false,
+                    AccessTokenType = AccessTokenType.Jwt,
+
+                    AccessTokenLifetime = 1,
+
+                    AllowOfflineAccess = true,
+                    AbsoluteRefreshTokenLifetime = 2592000,
+                    SlidingRefreshTokenLifetime = 1296000,
+                    RefreshTokenUsage = TokenUsage.OneTimeOnly,
+                    RefreshTokenExpiration = TokenExpiration.Absolute,
+                    UpdateAccessTokenClaimsOnRefresh = true,
+
+                    RedirectUris = {
+                         new Uri(portalUri, "silentsignedin").AbsoluteUri,
+                         new Uri(portalUri, "signedin").AbsoluteUri,
+                         new Uri(portalUri, "signin-oidc").AbsoluteUri
+                    },
+                    FrontChannelLogoutUri = new Uri(portalUri, "signout-oidc").AbsoluteUri,
+                    PostLogoutRedirectUris = {
+                         new Uri(portalUri, "signedout").AbsoluteUri,
+                         new Uri(portalUri, "signout-callback-oidc").AbsoluteUri
                     },
                     AllowedCorsOrigins = { portalUrl },
 
