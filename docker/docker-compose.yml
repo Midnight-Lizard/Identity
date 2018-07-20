@@ -1,8 +1,0 @@
-version: '3'
-
-services:
-  identity:
-    image: identity
-    build:
-      context: ../app
-      dockerfile: Dockerfile
