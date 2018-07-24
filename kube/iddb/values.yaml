@@ -1,6 +1,6 @@
 # Default values for iddb.
 replicaCount: 1
-image: postgres
+image: debezium/postgres:10.0
 volumeMountPath: /var/lib/postgresql/data
 antiAffinity:
   weight: 100
