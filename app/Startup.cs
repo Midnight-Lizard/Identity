@@ -12,6 +12,8 @@ using MidnightLizard.Web.Identity.Data;
 using MidnightLizard.Web.Identity.Models;
 using MidnightLizard.Web.Identity.Services;
 using MidnightLizard.Web.Identity.Configuration;
+using System.Reflection;
+using IdentityServer4.EntityFramework.DbContexts;
 
 namespace MidnightLizard.Web.Identity
 {
@@ -27,8 +29,12 @@ namespace MidnightLizard.Web.Identity
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
             var connectionString = Configuration.GetValue<string>("IDDB_CONNECTION");
-            services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+            services.AddDbContext<ApplicationDbContext>(
+                options => options.UseNpgsql(connectionString,
+                    sql => sql.MigrationsAssembly(migrationsAssembly)));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -45,7 +51,18 @@ namespace MidnightLizard.Web.Identity
                 .AddInMemoryIdentityResources(Resources.GetIdentityResources())
                 .AddInMemoryApiResources(Resources.GetApiResources())
                 .AddInMemoryClients(Clients.Get(Configuration))
-                .AddAspNetIdentity<ApplicationUser>();
+                .AddAspNetIdentity<ApplicationUser>()
+                // this adds the operational data from DB (codes, tokens, consents)
+                .AddOperationalStore(options =>
+                {
+                    options.ConfigureDbContext = builder =>
+                        builder.UseNpgsql(connectionString,
+                            sql => sql.MigrationsAssembly(migrationsAssembly));
+
+                    // this enables automatic token cleanup. this is optional.
+                    options.EnableTokenCleanup = true;
+                    // options.TokenCleanupInterval = 15; // interval in seconds. 15 seconds useful for debugging
+                });
 
             services.AddAuthentication()
                 .AddGoogle(options =>
@@ -60,8 +77,8 @@ namespace MidnightLizard.Web.Identity
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                context.Database.Migrate();
+                serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
+                serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
             }
 
             if (env.IsDevelopment())

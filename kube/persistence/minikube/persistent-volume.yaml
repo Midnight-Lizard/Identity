@@ -10,7 +10,7 @@ spec:
     storage: 20Mi
   accessModes:
     - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
+  persistentVolumeReclaimPolicy: Delete
   storageClassName: iddb-sc
   hostPath:
-    path: "/mnt/data/iddb"
+    path: "/mnt/data/iddb-4"
