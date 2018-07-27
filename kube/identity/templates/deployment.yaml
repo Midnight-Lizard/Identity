@@ -89,15 +89,15 @@ spec:
                 secretKeyRef:
                   name: iddb-secret
                   key: connection
-            - name: GOOGLE_CLIENTID
+            - name: IDENTITY_GOOGLE_CLIENT_ID
               valueFrom:
                 secretKeyRef:
-                  name: auth-google-secret
+                  name: {{ template "name" . }}-google-secret
                   key: clientId
-            - name: GOOGLE_CLIENTSECRET
+            - name: IDENTITY_GOOGLE_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: auth-google-secret
+                  name: {{ template "name" . }}-google-secret
                   key: clientSecret
             {{- range $key, $val := .Values.env }}
             - name: {{ $key }}

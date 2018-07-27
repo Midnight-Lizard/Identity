@@ -28,6 +28,9 @@ secrets:
   signinCertificate:
     data: "base64 encoded .pfx file content"
     password: "base64 encoded password to .pfx file"
+  google:
+    clientId: "base64 encoded value"
+    clientSecret: "base64 encoded value"
 env:
   ASPNETCORE_ENVIRONMENT: Production
   PORTAL_URL: http://midnight-lizard.online

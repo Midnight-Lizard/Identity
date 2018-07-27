@@ -77,8 +77,8 @@ namespace MidnightLizard.Web.Identity
             services.AddAuthentication()
                 .AddGoogle(options =>
                 {
-                    options.ClientId = Configuration.GetValue<string>("GOOGLE_CLIENTID");
-                    options.ClientSecret = Configuration.GetValue<string>("GOOGLE_CLIENTSECRET");
+                    options.ClientId = Configuration.GetValue<string>("IDENTITY_GOOGLE_CLIENT_ID");
+                    options.ClientSecret = Configuration.GetValue<string>("IDENTITY_GOOGLE_CLIENT_SECRET");
                 });
         }
 
