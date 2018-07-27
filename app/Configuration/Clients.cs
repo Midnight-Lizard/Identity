@@ -13,7 +13,7 @@ namespace MidnightLizard.Web.Identity.Configuration
         public static IEnumerable<Client> Get(IConfiguration configuration)
         {
             var portalUrl = configuration.GetValue<string>("PORTAL_URL");
-            var portalAuthSecret = new Secret(configuration.GetValue<string>("PORTAL_AUTH_SECRET").Sha256());
+            var portalClientSecret = new Secret(configuration.GetValue<string>("IDENTITY_PORTAL_CLIENT_SECRET").Sha256());
             var portalUri = new Uri(portalUrl);
 
             return new List<Client>
@@ -89,7 +89,7 @@ namespace MidnightLizard.Web.Identity.Configuration
                     AllowAccessTokensViaBrowser = false,
                     AlwaysIncludeUserClaimsInIdToken = true,
                     RequireClientSecret = true,
-                    ClientSecrets = { portalAuthSecret },
+                    ClientSecrets = { portalClientSecret },
                     RequireConsent = false,
                     AccessTokenType = AccessTokenType.Jwt,
 

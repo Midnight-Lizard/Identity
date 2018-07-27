@@ -79,11 +79,11 @@ spec:
                 secretKeyRef:
                   name: {{ template "name" . }}-signin-secret
                   key: password
-            - name: PORTAL_AUTH_SECRET
+            - name: IDENTITY_PORTAL_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: portal-secret
-                  key: auth-secret
+                  name: {{ template "name" . }}-portal-secret
+                  key: clientSecret
             - name: IDDB_CONNECTION
               valueFrom:
                 secretKeyRef:

@@ -31,6 +31,8 @@ secrets:
   google:
     clientId: "base64 encoded value"
     clientSecret: "base64 encoded value"
+  portal:
+    clientSecret: "base64 encoded value"
 env:
   ASPNETCORE_ENVIRONMENT: Production
   PORTAL_URL: http://midnight-lizard.online
