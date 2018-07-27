@@ -55,7 +55,7 @@ namespace MidnightLizard.Web.Identity.Configuration
                     AlwaysIncludeUserClaimsInIdToken = true,
                     RequireClientSecret = false,
                     RequireConsent = false,
-                    AccessTokenType = AccessTokenType.Jwt,
+                    AccessTokenType = AccessTokenType.Reference,
 
                     RedirectUris = {
                          new Uri(portalUri, "silentsignedin").AbsoluteUri,
@@ -91,7 +91,7 @@ namespace MidnightLizard.Web.Identity.Configuration
                     RequireClientSecret = true,
                     ClientSecrets = { portalClientSecret },
                     RequireConsent = false,
-                    AccessTokenType = AccessTokenType.Jwt,
+                    AccessTokenType = AccessTokenType.Reference,
 
                     AccessTokenLifetime = 1,
 
