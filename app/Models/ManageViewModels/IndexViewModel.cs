@@ -8,7 +8,7 @@ namespace MidnightLizard.Web.Identity.Models.ManageViewModels
 {
     public class IndexViewModel
     {
-        [Display(Name = "Username (Login)")]
+        [Display(Name = "Username")]
         public string UserName { get; set; }
 
         [Required]
