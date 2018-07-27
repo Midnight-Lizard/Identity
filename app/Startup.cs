@@ -32,6 +32,7 @@ namespace MidnightLizard.Web.Identity
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
             var connectionString = Configuration.GetValue<string>("IDDB_CONNECTION");
+
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseNpgsql(connectionString,
                     sql => sql.MigrationsAssembly(migrationsAssembly)));
@@ -45,9 +46,10 @@ namespace MidnightLizard.Web.Identity
 
             services.AddMvc();
 
+            var cert = Certificate.Get(Configuration);
+
             // Adds IdentityServer
-            services.AddIdentityServer()
-                .AddDeveloperSigningCredential()
+            var idSrv = services.AddIdentityServer()
                 .AddInMemoryIdentityResources(Resources.GetIdentityResources())
                 .AddInMemoryApiResources(Resources.GetApiResources())
                 .AddInMemoryClients(Clients.Get(Configuration))
@@ -63,6 +65,14 @@ namespace MidnightLizard.Web.Identity
                     options.EnableTokenCleanup = true;
                     // options.TokenCleanupInterval = 15; // interval in seconds. 15 seconds useful for debugging
                 });
+            if (cert == null)
+            {
+                idSrv.AddDeveloperSigningCredential();
+            }
+            else
+            {
+                idSrv.AddSigningCredential(cert);
+            }
 
             services.AddAuthentication()
                 .AddGoogle(options =>

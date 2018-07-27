@@ -69,6 +69,16 @@ spec:
             periodSeconds: {{ .Values.readinessProbe.period }}
             timeoutSeconds: {{ .Values.readinessProbe.timeout }}
           env:
+            - name: IDENTITY_SERVER_SIGNIN_CERTIFICATE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "name" . }}-signin-secret
+                  key: certificate
+            - name: IDENTITY_SERVER_SIGNIN_CERTIFICATE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "name" . }}-signin-secret
+                  key: password
             - name: PORTAL_AUTH_SECRET
               valueFrom:
                 secretKeyRef:

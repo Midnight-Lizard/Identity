@@ -24,6 +24,10 @@ readinessProbe:
   delay: 30
   period: 20
   timeout: 5
+secrets:
+  signinCertificate:
+    data: "base64 encoded .pfx file content"
+    password: "base64 encoded password to .pfx file"
 env:
   ASPNETCORE_ENVIRONMENT: Production
   PORTAL_URL: http://midnight-lizard.online

@@ -27,4 +27,7 @@ gce-deploy:
   - curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
   # - ./shell/helm-deploy.sh -r "iddb-data" -c "./kube/persistence/gce" --set name=iddb
   - ./shell/helm-deploy.sh -i "debezium/postgres:10.0" -r "iddb" -c "./kube/iddb"
-  - ./shell/helm-deploy.sh -i "$CI_REGISTRY/$GROUP/$PROJ:$CI_PIPELINE_ID" -r "$PROJ" -c "./kube/$PROJ"
+  - >-
+    ./shell/helm-deploy.sh -i "$CI_REGISTRY/$GROUP/$PROJ:$CI_PIPELINE_ID" -r "$PROJ" -c "./kube/$PROJ"
+    --set secrets.signinCertificate.data=$IDENTITY_SERVER_SIGNIN_CERTIFICATE
+    --set secrets.signinCertificate.password=$IDENTITY_SERVER_SIGNIN_CERTIFICATE_PASSWORD
