@@ -9,6 +9,16 @@ namespace MidnightLizard.Web.Identity.Models.AccountViewModels
     public class RegisterViewModel
     {
         [Required]
+        [StringLength(256)]
+        [Display(Name = "Login (UserName)")]
+        public string UserName { get; set; }
+
+        [Required]
+        [StringLength(256)]
+        [Display(Name = "Display name")]
+        public string DisplayName { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }

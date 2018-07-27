@@ -14,6 +14,8 @@ using MidnightLizard.Web.Identity.Services;
 using MidnightLizard.Web.Identity.Configuration;
 using System.Reflection;
 using IdentityServer4.EntityFramework.DbContexts;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using System.Security.Claims;
 
 namespace MidnightLizard.Web.Identity
 {

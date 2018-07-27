@@ -234,7 +234,12 @@ namespace MidnightLizard.Web.Identity.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    DisplayName = model.DisplayName
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -344,8 +349,16 @@ namespace MidnightLizard.Web.Identity.Controllers
                 // If the user does not have an account, then ask the user to create an account.
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
+                _logger.LogInformation("External login claims {claims}",
+                    string.Join("; ", info.Principal.Claims));
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
+                var givenName = info.Principal.FindFirstValue(ClaimTypes.GivenName);
+                var surname = info.Principal.FindFirstValue(ClaimTypes.Surname);
+                return View("ExternalLogin", new ExternalLoginViewModel
+                {
+                    Email = email,
+                    DisplayName = string.Join(' ', new[] { givenName, surname })
+                });
             }
         }
 
@@ -362,7 +375,12 @@ namespace MidnightLizard.Web.Identity.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    DisplayName = model.DisplayName
+                };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
