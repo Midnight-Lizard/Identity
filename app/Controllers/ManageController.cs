@@ -56,7 +56,8 @@ namespace MidnightLizard.Web.Identity.Controllers
 
             var model = new IndexViewModel
             {
-                Username = user.UserName,
+                UserName = user.UserName,
+                DisplayName = user.DisplayName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
@@ -98,6 +99,17 @@ namespace MidnightLizard.Web.Identity.Controllers
                 if (!setPhoneResult.Succeeded)
                 {
                     throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
+                }
+            }
+
+            var displayName = user.DisplayName;
+            if (model.DisplayName != displayName)
+            {
+                user.DisplayName = model.DisplayName;
+                var updateResult = await _userManager.UpdateAsync(user);
+                if (!updateResult.Succeeded)
+                {
+                    throw new ApplicationException($"Unexpected error occurred setting display name of user with ID '{user.Id}'.");
                 }
             }
 

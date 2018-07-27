@@ -14,7 +14,7 @@ namespace MidnightLizard.Web.Identity.Models.AccountViewModels
 
         [Required]
         [StringLength(256)]
-        [Display(Name = "Login (UserName)")]
+        [Display(Name = "Username (Login)")]
         public string UserName { get; set; }
 
         [Required]

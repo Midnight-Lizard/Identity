@@ -8,7 +8,13 @@ namespace MidnightLizard.Web.Identity.Models.ManageViewModels
 {
     public class IndexViewModel
     {
-        public string Username { get; set; }
+        [Display(Name = "Username (Login)")]
+        public string UserName { get; set; }
+
+        [Required]
+        [StringLength(256)]
+        [Display(Name = "Display name")]
+        public string DisplayName { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
 
