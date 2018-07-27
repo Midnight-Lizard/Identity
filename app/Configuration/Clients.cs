@@ -14,7 +14,7 @@ namespace MidnightLizard.Web.Identity.Configuration
         {
             var portalUrl = configuration.GetValue<string>("PORTAL_URL");
             var portalClientSecret = new Secret(configuration.GetValue<string>("IDENTITY_PORTAL_CLIENT_SECRET").Sha256());
-            var portalUri = new Uri(portalUrl);
+            var portalUri = new Uri(portalUrl ?? "http://localhost:7000");
 
             return new List<Client>
             {

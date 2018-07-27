@@ -33,7 +33,7 @@ namespace MidnightLizard.Web.Identity
         {
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
-            var connectionString = Configuration.GetValue<string>("IDDB_CONNECTION");
+            var connectionString = Configuration.GetValue<string>("IDDB_CONNECTION") ?? "local";
 
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseNpgsql(connectionString,
@@ -87,12 +87,6 @@ namespace MidnightLizard.Web.Identity
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
-                serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
-            }
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
