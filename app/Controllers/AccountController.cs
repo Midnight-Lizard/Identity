@@ -352,12 +352,12 @@ namespace MidnightLizard.Web.Identity.Controllers
                 _logger.LogError("External login claims {claims}",
                     string.Join("; ", info.Principal.Claims));
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                var givenName = info.Principal.FindFirstValue(ClaimTypes.GivenName);
-                var surname = info.Principal.FindFirstValue(ClaimTypes.Surname);
+                var name = info.Principal.FindFirstValue(ClaimTypes.Name);
                 return View("ExternalLogin", new ExternalLoginViewModel
                 {
+                    UserName = email,
+                    DisplayName = name,
                     Email = email,
-                    DisplayName = string.Join(' ', new[] { givenName, surname })
                 });
             }
         }
