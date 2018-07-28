@@ -18,8 +18,15 @@ namespace MidnightLizard.Web.Identity.Configuration
             {
                 return null;
             }
-            return new X509Certificate2(Encoding.UTF8.GetBytes(certData), certPass,
-                X509KeyStorageFlags.Exportable | X509KeyStorageFlags.MachineKeySet);
+            try
+            {
+                return new X509Certificate2(Encoding.UTF8.GetBytes(certData), certPass,
+                    X509KeyStorageFlags.Exportable | X509KeyStorageFlags.MachineKeySet);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
