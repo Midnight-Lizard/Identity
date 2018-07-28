@@ -15,7 +15,6 @@ namespace MidnightLizard.Web.Identity.Configuration
         public static X509Certificate2 Get(IConfiguration configuration)
         {
             var certPass = configuration.GetValue<string>("IDENTITY_SERVER_SIGNIN_CERTIFICATE_PASSWORD");
-            var certData = configuration.GetValue<string>("IDENTITY_SERVER_SIGNIN_CERTIFICATE");
             if (!File.Exists(_certificatePath))
             {
                 return null;
