@@ -93,9 +93,8 @@ namespace MidnightLizard.Web.Identity.Configuration
                     RequireConsent = false,
                     AccessTokenType = AccessTokenType.Reference,
 
-                    AccessTokenLifetime = 1,
-
                     AllowOfflineAccess = true,
+                    AccessTokenLifetime = 3600,
                     AbsoluteRefreshTokenLifetime = 2592000,
                     SlidingRefreshTokenLifetime = 1296000,
                     RefreshTokenUsage = TokenUsage.OneTimeOnly,

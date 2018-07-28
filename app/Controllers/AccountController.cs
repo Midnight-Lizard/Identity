@@ -349,7 +349,7 @@ namespace MidnightLizard.Web.Identity.Controllers
                 // If the user does not have an account, then ask the user to create an account.
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
-                _logger.LogInformation("External login claims {claims}",
+                _logger.LogError("External login claims {claims}",
                     string.Join("; ", info.Principal.Claims));
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
                 var givenName = info.Principal.FindFirstValue(ClaimTypes.GivenName);

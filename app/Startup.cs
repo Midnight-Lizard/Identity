@@ -16,6 +16,7 @@ using System.Reflection;
 using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using System.Security.Claims;
+using MidnightLizard.Web.Identity.Security.Claims;
 
 namespace MidnightLizard.Web.Identity
 {
@@ -75,6 +76,8 @@ namespace MidnightLizard.Web.Identity
             {
                 idSrv.AddSigningCredential(cert);
             }
+
+            services.AddTransient<IUserClaimsPrincipalFactory<ApplicationUser>, AppClaimsPrincipalFactory>();
 
             services.AddAuthentication()
                 .AddGoogle(options =>
