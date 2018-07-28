@@ -16,14 +16,14 @@ service:
   internalPort: 80
 livenessProbe:
   path: /status/isalive
-  delay: 60
-  period: 50
-  timeout: 10
+  delay: 600
+  period: 120
+  timeout: 60
 readinessProbe:
   command: /status/isready
-  delay: 30
-  period: 20
-  timeout: 5
+  delay: 300
+  period: 60
+  timeout: 30
 secrets:
   signinCertificate:
     data: "base64 encoded .pfx file content"
