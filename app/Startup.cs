@@ -17,6 +17,7 @@ using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using System.Security.Claims;
 using MidnightLizard.Web.Identity.Security.Claims;
+using Microsoft.Extensions.Logging;
 
 namespace MidnightLizard.Web.Identity
 {
@@ -90,6 +91,19 @@ namespace MidnightLizard.Web.Identity
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                try
+                {
+                    app.ApplicationServices.GetRequiredService<ApplicationDbContext>().Database.Migrate();
+                    app.ApplicationServices.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+                }
+                catch (Exception ex)
+                {
+                    var logger = app.ApplicationServices.GetRequiredService<ILogger<Startup>>();
+                    logger.LogError(ex, "An error occurred during Database.Migrate.");
+                }
+            }
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

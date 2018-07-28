@@ -19,21 +19,6 @@ namespace MidnightLizard.Web.Identity
         public static void Main(string[] args)
         {
             var host = BuildWebHost(args);
-            using (var serviceScope = host.Services.CreateScope())
-            {
-                var services = serviceScope.ServiceProvider;
-
-                try
-                {
-                    services.GetRequiredService<ApplicationDbContext>().Database.Migrate();
-                    services.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
-                }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred during Database.Migrate.");
-                }
-            }
             host.Run();
         }
 
