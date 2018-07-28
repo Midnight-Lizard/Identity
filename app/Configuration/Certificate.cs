@@ -20,7 +20,7 @@ namespace MidnightLizard.Web.Identity.Configuration
             }
             try
             {
-                return new X509Certificate2(Encoding.UTF8.GetBytes(certData), certPass,
+                return new X509Certificate2(Convert.FromBase64String(certData), certPass,
                     X509KeyStorageFlags.Exportable | X509KeyStorageFlags.MachineKeySet);
             }
             catch
