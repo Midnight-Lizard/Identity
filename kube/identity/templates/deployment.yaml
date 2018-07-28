@@ -47,6 +47,10 @@ spec:
                         - {{ . }}
                         {{- end }}
       restartPolicy: Always
+      volumes:
+        - name: secret-volume
+          secret:
+            secretName: {{ template "name" . }}-signin-secret
       containers:
         - name: {{ .Chart.Name }}
           image: {{ .Values.image | quote }}
@@ -68,22 +72,21 @@ spec:
             initialDelaySeconds: {{ .Values.readinessProbe.delay }}
             periodSeconds: {{ .Values.readinessProbe.period }}
             timeoutSeconds: {{ .Values.readinessProbe.timeout }}
+          volumeMounts:
+            - name: secret-volume
+              readOnly: true
+              mountPath: "/etc/secret"
           env:
-            - name: IDENTITY_SERVER_SIGNIN_CERTIFICATE
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "name" . }}-signin-secret
-                  key: certificate
             - name: IDENTITY_SERVER_SIGNIN_CERTIFICATE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ template "name" . }}-signin-secret
                   key: password
-            #- name: IDENTITY_PORTAL_CLIENT_SECRET
-            #  valueFrom:
-            #    secretKeyRef:
-            #      name: {{ template "name" . }}-portal-secret
-            #      key: clientSecret
+            - name: IDENTITY_PORTAL_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "name" . }}-portal-secret
+                  key: clientSecret
             - name: IDDB_CONNECTION
               valueFrom:
                 secretKeyRef:

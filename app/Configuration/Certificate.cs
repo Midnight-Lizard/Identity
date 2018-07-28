@@ -5,22 +5,24 @@ using System.Threading.Tasks;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.Configuration;
 using System.Text;
+using System.IO;
 
 namespace MidnightLizard.Web.Identity.Configuration
 {
     public static class Certificate
     {
+        private static readonly string _certificatePath = "/etc/secret/certificate";
         public static X509Certificate2 Get(IConfiguration configuration)
         {
             var certPass = configuration.GetValue<string>("IDENTITY_SERVER_SIGNIN_CERTIFICATE_PASSWORD");
             var certData = configuration.GetValue<string>("IDENTITY_SERVER_SIGNIN_CERTIFICATE");
-            if (string.IsNullOrEmpty(certData) || string.IsNullOrEmpty(certPass))
+            if (!File.Exists(_certificatePath))
             {
                 return null;
             }
             try
             {
-                return new X509Certificate2(Convert.FromBase64String(certData), certPass,
+                return new X509Certificate2(_certificatePath, certPass,
                     X509KeyStorageFlags.Exportable | X509KeyStorageFlags.MachineKeySet);
             }
             catch
