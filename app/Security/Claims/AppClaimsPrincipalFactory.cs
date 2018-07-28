@@ -1,8 +1,10 @@
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using MidnightLizard.Web.Identity.Models;
 
@@ -11,11 +13,15 @@ namespace MidnightLizard.Web.Identity.Security.Claims
 
     public class AppClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser, IdentityRole>
     {
+        private readonly IConfiguration configuration;
+
         public AppClaimsPrincipalFactory(
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
-            IOptions<IdentityOptions> optionsAccessor) : base(userManager, roleManager, optionsAccessor)
+            IOptions<IdentityOptions> optionsAccessor,
+            IConfiguration configuration) : base(userManager, roleManager, optionsAccessor)
         {
+            this.configuration = configuration;
         }
 
         public async override Task<ClaimsPrincipal> CreateAsync(ApplicationUser user)
@@ -23,6 +29,9 @@ namespace MidnightLizard.Web.Identity.Security.Claims
             var principal = await base.CreateAsync(user);
 
             var identity = principal.Identities.First();
+
+            var identityUri = new Uri(this.configuration.GetValue<string>("IDENTITY_URL") ?? "http://localhost:7002");
+            identity.AddClaim(new Claim(JwtClaimTypes.Profile, new Uri(identityUri, "/Manage/Index").AbsoluteUri));
 
             var usernameClaim = identity.FindFirst(claim => claim.Type == Options.ClaimsIdentity.UserNameClaimType && claim.Value == user.UserName);
             if (usernameClaim != null)
