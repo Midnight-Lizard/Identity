@@ -24,7 +24,7 @@ namespace MidnightLizard.Web.Identity.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "Midnight Lizard contacts";
 
             return View();
         }
