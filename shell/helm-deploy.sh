@@ -22,5 +22,5 @@ while [ "$1" != "" ]; do
     esac
     shift 2
 done
-echo "IMAGE = $IMAGE; RELEASE = $RELEASE; CHART = $CHART; SET = [$SET]"
+echo "IMAGE = $IMAGE; RELEASE = $RELEASE; CHART = $CHART"
 helm upgrade --install$SET $RELEASE $CHART
