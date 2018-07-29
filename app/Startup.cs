@@ -23,8 +23,11 @@ namespace MidnightLizard.Web.Identity
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly ILogger<Startup> logger;
+
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
+            this.logger = logger;
             Configuration = configuration;
         }
 
@@ -50,7 +53,7 @@ namespace MidnightLizard.Web.Identity
 
             services.AddMvc();
 
-            var cert = Certificate.Get(Configuration);
+            var cert = Certificate.Get(Configuration, this.logger);
 
             // Adds IdentityServer
             var idSrv = services.AddIdentityServer()
@@ -93,15 +96,15 @@ namespace MidnightLizard.Web.Identity
         {
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
+                var services = serviceScope.ServiceProvider;
                 try
                 {
-                    app.ApplicationServices.GetRequiredService<ApplicationDbContext>().Database.Migrate();
-                    app.ApplicationServices.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+                    services.GetRequiredService<ApplicationDbContext>().Database.Migrate();
+                    services.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
                 }
                 catch (Exception ex)
                 {
-                    var logger = app.ApplicationServices.GetRequiredService<ILogger<Startup>>();
-                    logger.LogError(ex, "An error occurred during Database.Migrate.");
+                    this.logger.LogError(ex, "An error occurred during Database.Migrate.");
                 }
             }
             if (env.IsDevelopment())
