@@ -27,7 +27,7 @@ namespace MidnightLizard.Web.Identity.Configuration
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Failed to create signin certificate");
+                logger.LogError(ex, "Failed to create signin certificate. Developer signin certiticate will be used.");
                 return null;
             }
         }
