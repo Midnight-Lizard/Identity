@@ -77,11 +77,6 @@ spec:
               readOnly: true
               mountPath: "/etc/secret"
           env:
-            - name: IDENTITY_SERVER_SIGNIN_CERTIFICATE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "name" . }}-signin-secret
-                  key: password
             - name: IDENTITY_PORTAL_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
