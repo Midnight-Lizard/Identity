@@ -22,5 +22,5 @@ IDENTITY_PORTAL_CLIENT_SECRET=$secret;
     --set secrets.google.clientId=$IDENTITY_GOOGLE_CLIENT_ID \
     --set secrets.google.clientSecret=$IDENTITY_GOOGLE_CLIENT_SECRET \
     --set secrets.portal.clientSecret=$IDENTITY_PORTAL_CLIENT_SECRET \
-    --set env.PORTAL_URL=http://192.168.1.35:31067 \
+    --set env.PORTAL_URL=http://192.168.1.35:31565 \
     # --set env.PORTAL_URL=http://localhost:7000 \
