@@ -22,6 +22,8 @@ namespace MidnightLizard.Web.Identity.Configuration
             }
             try
             {
+                logger.LogError("certPath=[{secret}]", certPass);
+                logger.LogError("cert=[{secret}]", File.ReadAllText(_certificatePath));
                 return new X509Certificate2(_certificatePath, certPass,
                     X509KeyStorageFlags.Exportable | X509KeyStorageFlags.MachineKeySet);
             }

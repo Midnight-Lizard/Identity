@@ -78,6 +78,7 @@ namespace MidnightLizard.Web.Identity
             }
             else
             {
+                this.logger.LogError("Using valid certificate");
                 idSrv.AddSigningCredential(cert);
             }
 

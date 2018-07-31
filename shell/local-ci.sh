@@ -10,7 +10,7 @@ kubectl config set-context minikube
 docker push $IMAGE
 # ./helm-deploy.sh -i debezium/postgres:10.0 -r iddb -c ../kube/iddb
 secret=$(echo -n not-a-secret | base64 -w 0);
-IDENTITY_SERVER_SIGNIN_CERTIFICATE=$secret;
+IDENTITY_SERVER_SIGNIN_CERTIFICATE=$(<../cert/signing-certificate.txt);
 IDENTITY_SERVER_SIGNIN_CERTIFICATE_PASSWORD=$secret;
 IDENTITY_GOOGLE_CLIENT_ID=$secret;
 IDENTITY_GOOGLE_CLIENT_SECRET=$secret;
