@@ -36,3 +36,4 @@ secrets:
 env:
   ASPNETCORE_ENVIRONMENT: Production
   PORTAL_URL: http://midnight-lizard.online
+  IDENTITY_URL: http://identity.midnight-lizard.online
