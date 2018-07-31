@@ -29,8 +29,8 @@ gce-deploy:
   - ./shell/helm-deploy.sh -i "debezium/postgres:10.0" -r "iddb" -c "./kube/iddb"
   - >-
     ./shell/helm-deploy.sh -i "$CI_REGISTRY/$GROUP/$PROJ:$CI_PIPELINE_ID" -r "$PROJ" -c "./kube/$PROJ"
-    --set secrets.signinCertificate.data=$IDENTITY_SERVER_SIGNIN_CERTIFICATE
-    --set secrets.signinCertificate.password=$IDENTITY_SERVER_SIGNIN_CERTIFICATE_PASSWORD
+    --set secrets.signingCertificate.data=$IDENTITY_SERVER_SIGNING_CERTIFICATE
+    --set secrets.signingCertificate.password=$IDENTITY_SERVER_SIGNING_CERTIFICATE_PASSWORD
     --set secrets.google.clientId=$IDENTITY_GOOGLE_CLIENT_ID
     --set secrets.google.clientSecret=$IDENTITY_GOOGLE_CLIENT_SECRET
     --set secrets.portal.clientSecret=$IDENTITY_PORTAL_CLIENT_SECRET

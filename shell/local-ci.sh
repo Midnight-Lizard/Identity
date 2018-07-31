@@ -10,15 +10,15 @@ kubectl config set-context minikube
 docker push $IMAGE
 # ./helm-deploy.sh -i debezium/postgres:10.0 -r iddb -c ../kube/iddb
 secret=$(echo -n not-a-secret | base64 -w 0);
-IDENTITY_SERVER_SIGNIN_CERTIFICATE=$(<../cert/signing-certificate.txt);
-IDENTITY_SERVER_SIGNIN_CERTIFICATE_PASSWORD=$secret;
+IDENTITY_SERVER_SIGNING_CERTIFICATE=$(<../cert/signing-certificate.txt);
+IDENTITY_SERVER_SIGNING_CERTIFICATE_PASSWORD=$secret;
 IDENTITY_GOOGLE_CLIENT_ID=$secret;
 IDENTITY_GOOGLE_CLIENT_SECRET=$secret;
 IDENTITY_PORTAL_CLIENT_SECRET=$secret;
 ./helm-deploy.sh -i $IMAGE -r $PROJ -c ../kube/$PROJ \
     --set env.ASPNETCORE_ENVIRONMENT=Development \
-    --set secrets.signinCertificate.data=$IDENTITY_SERVER_SIGNIN_CERTIFICATE \
-    --set secrets.signinCertificate.password=$IDENTITY_SERVER_SIGNIN_CERTIFICATE_PASSWORD \
+    --set secrets.signingCertificate.data=$IDENTITY_SERVER_SIGNING_CERTIFICATE \
+    --set secrets.signingCertificate.password=$IDENTITY_SERVER_SIGNING_CERTIFICATE_PASSWORD \
     --set secrets.google.clientId=$IDENTITY_GOOGLE_CLIENT_ID \
     --set secrets.google.clientSecret=$IDENTITY_GOOGLE_CLIENT_SECRET \
     --set secrets.portal.clientSecret=$IDENTITY_PORTAL_CLIENT_SECRET \
