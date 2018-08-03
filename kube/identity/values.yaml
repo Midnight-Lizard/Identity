@@ -37,6 +37,8 @@ secrets:
     apiSecret: "base64 encoded value"
   schemesQuerier:
     apiSecret: "base64 encoded value"
+  owners:
+    emailsJsonArray: "[\"base64 encoded\", \"array of owners' emails\"]"
 env:
   ASPNETCORE_ENVIRONMENT: Production
   PORTAL_URL: http://midnight-lizard.online

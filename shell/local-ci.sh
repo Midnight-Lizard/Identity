@@ -18,6 +18,7 @@ IDENTITY_GOOGLE_CLIENT_SECRET=$secret;
 IDENTITY_PORTAL_CLIENT_SECRET=$secret;
 IDENTITY_SCHEMES_COMMANDER_API_SECRET=$secret;
 IDENTITY_SCHEMES_QUERIER_API_SECRET=$secret;
+IDENTITY_OWNER_EMAILS_JSON_ARRAY=$(echo -n '["test@user.com","test@admin.com"]' | base64 -w 0);
 
 ./helm-deploy.sh -i $IMAGE -r $PROJ -c ../kube/$PROJ \
     --set env.ASPNETCORE_ENVIRONMENT=Development \
@@ -28,5 +29,6 @@ IDENTITY_SCHEMES_QUERIER_API_SECRET=$secret;
     --set secrets.portal.clientSecret=$IDENTITY_PORTAL_CLIENT_SECRET \
     --set secrets.schemesCommander.apiSecret=$IDENTITY_SCHEMES_COMMANDER_API_SECRET \
     --set secrets.schemesQuerier.apiSecret=$IDENTITY_SCHEMES_QUERIER_API_SECRET \
+    --set secrets.owners.emailsJsonArray=$IDENTITY_OWNER_EMAILS_JSON_ARRAY \
     --set env.PORTAL_URL=http://192.168.1.35:31565 \
     # --set env.PORTAL_URL=http://localhost:7000 \

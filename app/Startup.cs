@@ -93,21 +93,17 @@ namespace MidnightLizard.Web.Identity
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider services)
         {
-            using (var serviceScope = app.ApplicationServices.CreateScope())
+            try
             {
-                var services = serviceScope.ServiceProvider;
-                try
-                {
-                    services.GetRequiredService<ApplicationDbContext>().Database.Migrate();
-                    services.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
-                }
-                catch (Exception ex)
-                {
-                    this.logger.LogError(ex, "An error occurred during Database.Migrate.");
-                }
+                SeedData.EnsureSeedData(services, Configuration).GetAwaiter().GetResult();
             }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "An error occurred during data seed.");
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

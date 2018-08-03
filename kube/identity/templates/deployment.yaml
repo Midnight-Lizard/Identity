@@ -77,6 +77,11 @@ spec:
               readOnly: true
               mountPath: "/etc/secret"
           env:
+            - name: IDENTITY_OWNER_EMAILS_JSON_ARRAY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "name" . }}-owners-secret
+                  key: emailsJsonArray
             - name: IDENTITY_SCHEMES_COMMANDER_API_SECRET
               valueFrom:
                 secretKeyRef:

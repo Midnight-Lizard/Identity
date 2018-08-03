@@ -36,3 +36,4 @@ gce-deploy:
     --set secrets.portal.clientSecret=$IDENTITY_PORTAL_CLIENT_SECRET
     --set secrets.schemesCommander.apiSecret=$IDENTITY_SCHEMES_COMMANDER_API_SECRET
     --set secrets.schemesQuerier.apiSecret=$IDENTITY_SCHEMES_QUERIER_API_SECRET
+    --set secrets.owners.emailsJsonArray=$IDENTITY_OWNER_EMAILS_JSON_ARRAY
