@@ -34,3 +34,5 @@ gce-deploy:
     --set secrets.google.clientId=$IDENTITY_GOOGLE_CLIENT_ID
     --set secrets.google.clientSecret=$IDENTITY_GOOGLE_CLIENT_SECRET
     --set secrets.portal.clientSecret=$IDENTITY_PORTAL_CLIENT_SECRET
+    --set secrets.schemesCommander.apiSecret=$IDENTITY_SCHEMES_COMMANDER_API_SECRET
+    --set secrets.schemesQuerier.apiSecret=$IDENTITY_SCHEMES_QUERIER_API_SECRET
