@@ -1,4 +1,5 @@
 ﻿using IdentityServer4.Models;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +21,20 @@ namespace MidnightLizard.Web.Identity.Configuration
         }
 
         // scopes define the API resources in your system
-        public static IEnumerable<ApiResource> GetApiResources()
+        public static IEnumerable<ApiResource> GetApiResources(IConfiguration configuration)
         {
+            var schemesCommanderApiSecret = new Secret(configuration.GetValue<string>("IDENTITY_SCHEMES_COMMANDER_API_SECRET").Sha256());
+            var schemesQuerierApiSecret = new Secret(configuration.GetValue<string>("IDENTITY_SCHEMES_QUERIER_API_SECRET").Sha256());
             return new List<ApiResource>
             {
-                new ApiResource(Api.SchemesCommander, "MidnightLizard Color Schemes Commander Api"),
+                new ApiResource(Api.SchemesCommander, "MidnightLizard Color Schemes Commander Api")
+                {
+                    ApiSecrets = { schemesCommanderApiSecret }
+                },
                 new ApiResource(Api.SchemesQuerier, "MidnightLizard Color Schemes Querier Api")
+                {
+                    ApiSecrets = { schemesQuerierApiSecret }
+                }
             };
         }
 

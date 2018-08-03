@@ -77,6 +77,16 @@ spec:
               readOnly: true
               mountPath: "/etc/secret"
           env:
+            - name: IDENTITY_SCHEMES_COMMANDER_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "name" . }}-schemes-commander-secret
+                  key: apiSecret
+            - name: IDENTITY_SCHEMES_QUERIER_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "name" . }}-schemes-querier-secret
+                  key: apiSecret
             - name: IDENTITY_PORTAL_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:

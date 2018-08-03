@@ -58,7 +58,7 @@ namespace MidnightLizard.Web.Identity
             // Adds IdentityServer
             var idSrv = services.AddIdentityServer()
                 .AddInMemoryIdentityResources(Resources.GetIdentityResources())
-                .AddInMemoryApiResources(Resources.GetApiResources())
+                .AddInMemoryApiResources(Resources.GetApiResources(Configuration))
                 .AddInMemoryClients(Clients.Get(Configuration))
                 .AddAspNetIdentity<ApplicationUser>()
                 // this adds the operational data from DB (codes, tokens, consents)
