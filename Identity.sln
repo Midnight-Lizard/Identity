@@ -55,6 +55,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "shell", "shell\", "{CD1B72B
 		SlnRelativePath = "shell\"
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{8003BACE-F973-481C-B4F9-CBD02B212673}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,6 +78,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{758A6EEB-0803-456C-B3A4-0C0A60745497} = {8003BACE-F973-481C-B4F9-CBD02B212673}
+		{CD1B72B7-D32E-4FC0-8B98-C001A6EC159B} = {8003BACE-F973-481C-B4F9-CBD02B212673}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0F03E93-2B85-4FB2-B385-8815601B7E24}
