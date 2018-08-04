@@ -6,7 +6,7 @@ REGISTRY=localhost:5000
 IMAGE=$REGISTRY/$PROJ:$TAG
 eval $(docker-machine env default --shell bash)
 docker build -t $IMAGE --build-arg DOTNET_CONFIG=Build ../app
-kubectl config set-context minikube
+kubectl config use-context minikube
 docker push $IMAGE
 # ./helm-deploy.sh -i debezium/postgres:10.0 -r iddb -c ../kube/iddb
 
