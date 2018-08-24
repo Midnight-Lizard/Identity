@@ -3,8 +3,6 @@ using IdentityServer4.Models;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MidnightLizard.Web.Identity.Configuration
 {
@@ -111,7 +109,6 @@ namespace MidnightLizard.Web.Identity.Configuration
                          new Uri(portalUri, "signedout").AbsoluteUri,
                          new Uri(portalUri, "signout-callback-oidc").AbsoluteUri
                     },
-                    AllowedCorsOrigins = { portalUrl },
 
                     AllowedScopes = {
                         IdentityServerConstants.StandardScopes.OpenId,
@@ -120,7 +117,28 @@ namespace MidnightLizard.Web.Identity.Configuration
                         Resources.Api.SchemesCommander,
                         Resources.Api.SchemesQuerier
                     }
-                }
+                },
+
+                new Client
+                {
+                    ClientId = "portal-system",
+                    ClientName = "Midnight Lizard Web Portal system client",
+
+                    // no interactive user, use the `Basic clientid:secret` for authentication
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                    AccessTokenType = AccessTokenType.Reference,
+                    AccessTokenLifetime = 3600,
+
+                    // secret for authentication
+                    ClientSecrets = { portalClientSecret },
+                    RequireClientSecret = true,
+
+                    // scopes that client has access to
+                    AllowedScopes = {
+                        Resources.Api.SchemesQuerier
+                    }
+                },
             };
         }
     }
