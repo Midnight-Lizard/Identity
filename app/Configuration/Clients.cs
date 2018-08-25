@@ -92,9 +92,8 @@ namespace MidnightLizard.Web.Identity.Configuration
                     AccessTokenType = AccessTokenType.Reference,
 
                     AllowOfflineAccess = true,
-                    AccessTokenLifetime = 3600,
-                    AbsoluteRefreshTokenLifetime = 2592000,
-                    SlidingRefreshTokenLifetime = 1296000,
+                    AccessTokenLifetime = 333,
+                    AbsoluteRefreshTokenLifetime = (int)TimeSpan.FromDays(1).TotalSeconds,
                     RefreshTokenUsage = TokenUsage.OneTimeOnly,
                     RefreshTokenExpiration = TokenExpiration.Absolute,
                     UpdateAccessTokenClaimsOnRefresh = true,
@@ -128,7 +127,7 @@ namespace MidnightLizard.Web.Identity.Configuration
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
 
                     AccessTokenType = AccessTokenType.Reference,
-                    AccessTokenLifetime = 3600,
+                    AccessTokenLifetime = 333,
 
                     // secret for authentication
                     ClientSecrets = { portalClientSecret },
