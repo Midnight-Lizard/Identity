@@ -32,4 +32,4 @@ IDENTITY_OWNER_EMAILS_JSON_ARRAY=$(echo -n '["test@user.com","test@admin.com"]' 
     --set secrets.owners.emailsJsonArray=$IDENTITY_OWNER_EMAILS_JSON_ARRAY \
     --set env.PORTAL_URL=http://192.168.1.44:31565 \
     --set env.IDENTITY_URL=http://192.168.1.44:32006 \
-    # --set env.PORTAL_URL=http://localhost:7000 \
+    --set env.IDENTITY_PORTAL_ACCESS_TOKEN_LIFETIME=2147483647 \

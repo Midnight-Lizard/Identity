@@ -41,5 +41,4 @@ secrets:
     emailsJsonArray: "[\"base64 encoded\", \"array of owners' emails\"]"
 env:
   ASPNETCORE_ENVIRONMENT: Production
-  PORTAL_URL: http://midnight-lizard.online
-  IDENTITY_URL: http://identity.midnight-lizard.online
+  IDENTITY_PORTAL_ACCESS_TOKEN_LIFETIME: 333
