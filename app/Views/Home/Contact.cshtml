@@ -5,7 +5,10 @@
 <h3>@ViewData["Message"]</h3>
 
 <address>
-    <strong>Email:</strong> <a href="midnight.lizard.extension@gmail.com">Midnight.Lizard.Extension@Gmail.com</a><br />
+    @if(!User.Identity.IsAuthenticated)
+    {
+        <strong>Email:</strong> <a href="midnight.lizard.extension@gmail.com">Midnight.Lizard.Extension@Gmail.com</a><br />
+    }
     <strong>GitHub:</strong> <a href="https://github.com/Midnight-Lizard/Midnight-Lizard">github.com/Midnight-Lizard</a><br />
     <strong>Forum:</strong> <a href="https://groups.google.com/forum/#!forum/midnight-lizard-support">https://groups.google.com/forum/#!forum/midnight-lizard-support</a><br />
 </address>
