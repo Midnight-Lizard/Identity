@@ -22,11 +22,10 @@ gce-deploy:
   - master
   script:
   - chmod +x ./shell/gcloud-config.sh
-  - chmod +x ./shell/helm-deploy.sh
   - ./shell/gcloud-config.sh -k "$GCE_KEY" -z "$GCE_CLUSTER_ZONE" -p "$GCE_PROJECT" -c "$GCE_CLUSTER_NAME"
   - curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
-  # - ./shell/helm-deploy.sh -r "iddb-data" -c "./kube/persistence/gce" --set name=iddb
-  - ./shell/helm-deploy.sh -i "debezium/postgres:10.0" -r "iddb" -c "./kube/iddb"
+  # - helm install --set name=iddb -n iddb-data ./kube/persistence/gce
+  - helm upgrade --install iddb ./kube/iddb
   - >-
     ./shell/helm-deploy.sh -i "$CI_REGISTRY/$GROUP/$PROJ:$CI_PIPELINE_ID" -r "$PROJ" -c "./kube/$PROJ"
     --set secrets.signingCertificate.data=$IDENTITY_SERVER_SIGNING_CERTIFICATE
