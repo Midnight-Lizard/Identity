@@ -27,7 +27,7 @@ gce-deploy:
   # - helm install --set name=iddb -n iddb-data ./kube/persistence/gce
   - helm upgrade --install iddb ./kube/iddb
   - >-
-    ./shell/helm-deploy.sh -i "$CI_REGISTRY/$GROUP/$PROJ:$CI_PIPELINE_ID" -r "$PROJ" -c "./kube/$PROJ"
+    helm upgrade --install --set image="$CI_REGISTRY/$GROUP/$PROJ:$CI_PIPELINE_ID"
     --set secrets.signingCertificate.data=$IDENTITY_SERVER_SIGNING_CERTIFICATE
     --set secrets.signingCertificate.password=$IDENTITY_SERVER_SIGNING_CERTIFICATE_PASSWORD
     --set secrets.google.clientId=$IDENTITY_GOOGLE_CLIENT_ID
@@ -36,3 +36,4 @@ gce-deploy:
     --set secrets.schemesCommander.apiSecret=$IDENTITY_SCHEMES_COMMANDER_API_SECRET
     --set secrets.schemesQuerier.apiSecret=$IDENTITY_SCHEMES_QUERIER_API_SECRET
     --set secrets.owners.emailsJsonArray=$IDENTITY_OWNER_EMAILS_JSON_ARRAY
+    $PROJ ./kube/$PROJ

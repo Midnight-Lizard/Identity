@@ -20,7 +20,7 @@ IDENTITY_SCHEMES_COMMANDER_API_SECRET=$secret;
 IDENTITY_SCHEMES_QUERIER_API_SECRET=$secret;
 IDENTITY_OWNER_EMAILS_JSON_ARRAY=$(echo -n '["test@user.com","test@admin.com"]' | base64 -w 0);
 
-./helm-deploy.sh -i $IMAGE -r $PROJ -c ../kube/$PROJ \
+helm upgrade --install --set image=$IMAGE \
     --set env.ASPNETCORE_ENVIRONMENT=Development \
     --set secrets.signingCertificate.data=$IDENTITY_SERVER_SIGNING_CERTIFICATE \
     --set secrets.signingCertificate.password=$IDENTITY_SERVER_SIGNING_CERTIFICATE_PASSWORD \
@@ -34,3 +34,4 @@ IDENTITY_OWNER_EMAILS_JSON_ARRAY=$(echo -n '["test@user.com","test@admin.com"]' 
     --set env.IDENTITY_PORTAL_ACCESS_TOKEN_LIFETIME=2147483647 \
     --set env.PORTAL_URL=http://localhost:7000 \
     # --set env.PORTAL_URL=http://192.168.1.44:31565 \
+    $PROJ ../kube/$PROJ \
