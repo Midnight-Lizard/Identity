@@ -56,7 +56,12 @@ namespace MidnightLizard.Web.Identity
             var cert = Certificate.Get(Configuration, this.logger);
 
             // Adds IdentityServer
-            var idSrv = services.AddIdentityServer()
+            var idSrv = services.AddIdentityServer(options =>
+            {
+                var identityUrl = Configuration.GetValue<string>("IDENTITY_URL");
+                options.IssuerUri = identityUrl;
+                options.PublicOrigin = identityUrl;
+            })
                 .AddInMemoryIdentityResources(Resources.GetIdentityResources())
                 .AddInMemoryApiResources(Resources.GetApiResources(Configuration))
                 .AddInMemoryClients(Clients.Get(Configuration))
