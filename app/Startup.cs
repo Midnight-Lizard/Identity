@@ -113,6 +113,8 @@ namespace MidnightLizard.Web.Identity
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
+                app.UseHttpsRedirection();
             }
 
             app.UseStaticFiles();
