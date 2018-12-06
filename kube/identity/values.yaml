@@ -31,6 +31,9 @@ secrets:
   google:
     clientId: "base64 encoded value"
     clientSecret: "base64 encoded value"
+  twitter:
+    consumerKey: "base64 encoded value"
+    consumerSecret: "base64 encoded value"
   portal:
     clientSecret: "base64 encoded value"
   schemesCommander:

@@ -32,6 +32,8 @@ gce-deploy:
     --set secrets.signingCertificate.password=$IDENTITY_SERVER_SIGNING_CERTIFICATE_PASSWORD
     --set secrets.google.clientId=$IDENTITY_GOOGLE_CLIENT_ID
     --set secrets.google.clientSecret=$IDENTITY_GOOGLE_CLIENT_SECRET
+    --set secrets.twitter.consumerKey=$IDENTITY_TWITTER_CONSUMER_KEY
+    --set secrets.twitter.consumerSecret=$IDENTITY_TWITTER_CONSUMER_SECRET
     --set secrets.portal.clientSecret=$IDENTITY_PORTAL_CLIENT_SECRET
     --set secrets.schemesCommander.apiSecret=$IDENTITY_SCHEMES_COMMANDER_API_SECRET
     --set secrets.schemesQuerier.apiSecret=$IDENTITY_SCHEMES_QUERIER_API_SECRET

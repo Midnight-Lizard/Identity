@@ -94,6 +94,11 @@ namespace MidnightLizard.Web.Identity
                 {
                     options.ClientId = Configuration.GetValue<string>("IDENTITY_GOOGLE_CLIENT_ID");
                     options.ClientSecret = Configuration.GetValue<string>("IDENTITY_GOOGLE_CLIENT_SECRET");
+                })
+                .AddTwitter(options =>
+                {
+                    options.ConsumerKey = Configuration.GetValue<string>("IDENTITY_TWITTER_CONSUMER_KEY");
+                    options.ConsumerSecret = Configuration.GetValue<string>("IDENTITY_TWITTER_CONSUMER_SECRET");
                 });
         }
 

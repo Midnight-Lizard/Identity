@@ -112,6 +112,16 @@ spec:
                 secretKeyRef:
                   name: {{ template "name" . }}-google-secret
                   key: clientSecret
+            - name: IDENTITY_TWITTER_CONSUMER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "name" . }}-twitter-secret
+                  key: consumerKey
+            - name: IDENTITY_TWITTER_CONSUMER_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "name" . }}-twitter-secret
+                  key: consumerSecret
             {{- range $key, $val := .Values.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}
