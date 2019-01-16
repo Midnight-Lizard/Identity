@@ -24,8 +24,12 @@ gce-deploy:
   - chmod +x ./shell/gcloud-config.sh
   - ./shell/gcloud-config.sh -k "$GCE_KEY" -z "$GCE_CLUSTER_ZONE" -p "$GCE_PROJECT" -c "$GCE_CLUSTER_NAME"
   - curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+  - helm init --upgrade
   # - helm install --set name=iddb -n iddb-data ./kube/persistence/gce
-  - helm upgrade --install iddb ./kube/iddb
+  - >-
+    helm upgrade --install iddb ./kube/iddb
+    --set secrets.postgres.password=$IDDB_POSTGRES_PASSWORD
+    --set secrets.postgres.connection=$IDDB_POSTGRES_CONNECTION
   - >-
     helm upgrade --install --set image="$CI_REGISTRY/$GROUP/$PROJ:$CI_PIPELINE_ID"
     --set secrets.signingCertificate.data=$IDENTITY_SERVER_SIGNING_CERTIFICATE

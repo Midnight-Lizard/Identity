@@ -1,5 +1,5 @@
 #===========================================#
-#				PROJECT	BUILD				#
+#               PROJECT BUILD               #
 #===========================================#
 FROM microsoft/dotnet:2.2-sdk as dotnet-build
 ARG DOTNET_CONFIG=Release
@@ -10,7 +10,7 @@ COPY . .
 RUN dotnet publish -c ${DOTNET_CONFIG} -o ./results
 
 #===========================================#
-#				IMAGE	BUILD				#
+#               IMAGE   BUILD               #
 #===========================================#
 FROM microsoft/dotnet:2.2-aspnetcore-runtime as image
 WORKDIR /app

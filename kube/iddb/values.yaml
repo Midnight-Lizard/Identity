@@ -26,6 +26,10 @@ readinessProbe:
   delay: 30
   period: 20
   timeout: 5
+secrets:
+  postgres:
+    password: "base64 encoded value"
+    connection: "base64 encoded value"
 env:
   POSTGRES_DB: iddb
   POSTGRES_USER: postgres
