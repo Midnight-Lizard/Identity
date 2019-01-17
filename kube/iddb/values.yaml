@@ -2,15 +2,6 @@
 replicaCount: 1
 image: debezium/postgres:10.0
 volumeMountPath: /var/lib/postgresql/data
-antiAffinity:
-  weight: 100
-  apps:
-    - portal
-    - schemes
-affinity:
-  weight: 100
-  apps:
-    - identity
 service:
   name: iddb
   type: NodePort

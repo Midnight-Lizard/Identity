@@ -1,14 +1,6 @@
 # Default values for identity.
 replicaCount: 1
 image: identity:latest
-antiAffinity:
-  weight: 100
-  apps:
-    - portal
-affinity:
-  weight: 100
-  apps:
-    - iddb
 service:
   name: identity
   type: NodePort

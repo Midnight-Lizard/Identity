@@ -19,33 +19,6 @@ spec:
         app: {{ template "name" . }}
         release: {{ .Release.Name }}
     spec:
-      affinity:
-        podAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: {{ .Values.affinity.weight }}
-              podAffinityTerm:
-                topologyKey: "kubernetes.io/hostname"
-                labelSelector:
-                  matchExpressions:
-                    - key: app
-                      operator: In
-                      values:
-                        {{- range .Values.affinity.apps }}
-                        - {{ . }}
-                        {{- end }}
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: {{ .Values.antiAffinity.weight }}
-              podAffinityTerm:
-                topologyKey: "kubernetes.io/hostname"
-                labelSelector:
-                  matchExpressions:
-                    - key: app
-                      operator: In
-                      values:
-                        {{- range .Values.antiAffinity.apps }}
-                        - {{ . }}
-                        {{- end }}
       restartPolicy: Always
       containers:
         - name: {{ .Chart.Name }}
