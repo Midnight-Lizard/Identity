@@ -105,6 +105,21 @@ spec:
                 secretKeyRef:
                   name: {{ template "name" . }}-facebook-secret
                   key: appSecret
+            - name: SENDGRID_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "name" . }}-sendgrid-secret
+                  key: apiSecret
+            - name: IDENTITY_SERVICE_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "name" . }}-service-secret
+                  key: email
+            - name: IDENTITY_SERVICE_DISPLAY_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "name" . }}-service-secret
+                  key: displayName
             {{- range $key, $val := .Values.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}

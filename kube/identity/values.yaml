@@ -29,6 +29,11 @@ secrets:
   facebook:
     appId: "base64 encoded value"
     appSecret: "base64 encoded value"
+  sendGrid:
+    apiSecret: "base64 encoded value"
+  identityService:
+    email: "base64 encoded value"
+    displayName: "base64 encoded value"
   portal:
     clientSecret: "base64 encoded value"
   schemesCommander:

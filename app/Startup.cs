@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using MidnightLizard.Web.Identity.Configuration;
 using MidnightLizard.Web.Identity.Data;
 using MidnightLizard.Web.Identity.Models;
-using MidnightLizard.Web.Identity.Services;
-using MidnightLizard.Web.Identity.Configuration;
-using System.Reflection;
-using IdentityServer4.EntityFramework.DbContexts;
-using Microsoft.AspNetCore.Authentication.OAuth;
-using System.Security.Claims;
 using MidnightLizard.Web.Identity.Security.Claims;
-using Microsoft.Extensions.Logging;
+using MidnightLizard.Web.Identity.Services;
+using System;
+using System.Reflection;
 
 namespace MidnightLizard.Web.Identity
 {
@@ -28,7 +22,7 @@ namespace MidnightLizard.Web.Identity
         public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
             this.logger = logger;
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -38,13 +32,17 @@ namespace MidnightLizard.Web.Identity
         {
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
-            var connectionString = Configuration.GetValue<string>("IDDB_CONNECTION") ?? "local";
+            var connectionString = this.Configuration.GetValue<string>("IDDB_CONNECTION") ?? "local";
 
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseNpgsql(connectionString,
                     sql => sql.MigrationsAssembly(migrationsAssembly)));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
+            {
+                config.SignIn.RequireConfirmedEmail = true;
+            })
+                .AddClaimsPrincipalFactory<AppClaimsPrincipalFactory>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -53,18 +51,18 @@ namespace MidnightLizard.Web.Identity
 
             services.AddMvc();
 
-            var cert = Certificate.Get(Configuration, this.logger);
+            var cert = Certificate.Get(this.Configuration, this.logger);
 
             // Adds IdentityServer
             var idSrv = services.AddIdentityServer(options =>
             {
-                var identityUrl = Configuration.GetValue<string>("IDENTITY_URL");
+                var identityUrl = this.Configuration.GetValue<string>("IDENTITY_URL");
                 options.IssuerUri = identityUrl;
                 options.PublicOrigin = identityUrl;
             })
                 .AddInMemoryIdentityResources(Resources.GetIdentityResources())
-                .AddInMemoryApiResources(Resources.GetApiResources(Configuration))
-                .AddInMemoryClients(Clients.Get(Configuration))
+                .AddInMemoryApiResources(Resources.GetApiResources(this.Configuration))
+                .AddInMemoryClients(Clients.Get(this.Configuration))
                 .AddAspNetIdentity<ApplicationUser>()
                 // this adds the operational data from DB (codes, tokens, consents)
                 .AddOperationalStore(options =>
@@ -87,24 +85,25 @@ namespace MidnightLizard.Web.Identity
                 idSrv.AddSigningCredential(cert);
             }
 
-            services.AddTransient<IUserClaimsPrincipalFactory<ApplicationUser>, AppClaimsPrincipalFactory>();
-
             services.AddAuthentication()
                 .AddGoogle(options =>
                 {
-                    options.ClientId = Configuration.GetValue<string>("IDENTITY_GOOGLE_CLIENT_ID");
-                    options.ClientSecret = Configuration.GetValue<string>("IDENTITY_GOOGLE_CLIENT_SECRET");
+                    options.ClientId = this.Configuration.GetValue<string>("IDENTITY_GOOGLE_CLIENT_ID");
+                    options.ClientSecret = this.Configuration.GetValue<string>("IDENTITY_GOOGLE_CLIENT_SECRET");
                 })
                 .AddTwitter(options =>
                 {
-                    options.ConsumerKey = Configuration.GetValue<string>("IDENTITY_TWITTER_CONSUMER_KEY");
-                    options.ConsumerSecret = Configuration.GetValue<string>("IDENTITY_TWITTER_CONSUMER_SECRET");
+                    options.ConsumerKey = this.Configuration.GetValue<string>("IDENTITY_TWITTER_CONSUMER_KEY");
+                    options.ConsumerSecret = this.Configuration.GetValue<string>("IDENTITY_TWITTER_CONSUMER_SECRET");
                 })
                 .AddFacebook(options =>
                 {
-                    options.AppId= Configuration.GetValue<string>("IDENTITY_FACEBOOK_APP_ID");
-                    options.AppSecret=Configuration.GetValue<string>("IDENTITY_FACEBOOK_APP_SECRET");
+                    options.AppId = this.Configuration.GetValue<string>("IDENTITY_FACEBOOK_APP_ID");
+                    options.AppSecret = this.Configuration.GetValue<string>("IDENTITY_FACEBOOK_APP_SECRET");
                 });
+
+            services.AddOptions();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -112,7 +111,7 @@ namespace MidnightLizard.Web.Identity
         {
             try
             {
-                SeedData.EnsureSeedData(services, Configuration).GetAwaiter().GetResult();
+                SeedData.EnsureSeedData(services, this.Configuration).GetAwaiter().GetResult();
             }
             catch (Exception ex)
             {
