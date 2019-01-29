@@ -26,6 +26,9 @@ secrets:
   twitter:
     consumerKey: "base64 encoded value"
     consumerSecret: "base64 encoded value"
+  facebook:
+    appId: "base64 encoded value"
+    appSecret: "base64 encoded value"
   portal:
     clientSecret: "base64 encoded value"
   schemesCommander:

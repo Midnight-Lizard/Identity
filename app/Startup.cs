@@ -99,6 +99,11 @@ namespace MidnightLizard.Web.Identity
                 {
                     options.ConsumerKey = Configuration.GetValue<string>("IDENTITY_TWITTER_CONSUMER_KEY");
                     options.ConsumerSecret = Configuration.GetValue<string>("IDENTITY_TWITTER_CONSUMER_SECRET");
+                })
+                .AddFacebook(options =>
+                {
+                    options.AppId= Configuration.GetValue<string>("IDENTITY_FACEBOOK_APP_ID");
+                    options.AppSecret=Configuration.GetValue<string>("IDENTITY_FACEBOOK_APP_SECRET");
                 });
         }
 

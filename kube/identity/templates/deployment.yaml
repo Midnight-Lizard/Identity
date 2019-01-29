@@ -95,6 +95,16 @@ spec:
                 secretKeyRef:
                   name: {{ template "name" . }}-twitter-secret
                   key: consumerSecret
+            - name: IDENTITY_FACEBOOK_APP_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "name" . }}-facebook-secret
+                  key: appId
+            - name: IDENTITY_FACEBOOK_APP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "name" . }}-facebook-secret
+                  key: appSecret
             {{- range $key, $val := .Values.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}
