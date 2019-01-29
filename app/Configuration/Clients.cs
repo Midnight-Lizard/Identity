@@ -10,7 +10,8 @@ namespace MidnightLizard.Web.Identity.Configuration
     {
         public static IEnumerable<Client> Get(IConfiguration configuration)
         {
-            var portalAccessTokenLifetime = configuration.GetValue<double>("IDENTITY_PORTAL_ACCESS_TOKEN_LIFETIME");
+            var portalSystemAccessTokenLifetime = configuration.GetValue<double>("IDENTITY_PORTAL_SYSTEM_ACCESS_TOKEN_LIFETIME");
+            var portalServerAccessTokenLifetime = configuration.GetValue<double>("IDENTITY_PORTAL_SERVER_ACCESS_TOKEN_LIFETIME");
             var portalUrl = configuration.GetValue<string>("PORTAL_URL");
             var portalClientSecret = new Secret(configuration.GetValue<string>("IDENTITY_PORTAL_CLIENT_SECRET").Sha256());
             var portalUri = new Uri(portalUrl ?? "http://localhost:7000");
@@ -93,8 +94,8 @@ namespace MidnightLizard.Web.Identity.Configuration
                     AccessTokenType = AccessTokenType.Reference,
 
                     AllowOfflineAccess = true,
-                    AccessTokenLifetime = (int)portalAccessTokenLifetime,
-                    AbsoluteRefreshTokenLifetime = (int)TimeSpan.FromDays(1).TotalSeconds,
+                    AccessTokenLifetime = (int)portalServerAccessTokenLifetime,
+                    AbsoluteRefreshTokenLifetime = (int)TimeSpan.FromDays(7).TotalSeconds,
                     RefreshTokenUsage = TokenUsage.OneTimeOnly,
                     RefreshTokenExpiration = TokenExpiration.Absolute,
                     UpdateAccessTokenClaimsOnRefresh = true,
@@ -127,7 +128,7 @@ namespace MidnightLizard.Web.Identity.Configuration
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
 
                     AccessTokenType = AccessTokenType.Reference,
-                    AccessTokenLifetime = (int)portalAccessTokenLifetime,
+                    AccessTokenLifetime = (int)portalSystemAccessTokenLifetime,
 
                     // secret for authentication
                     ClientSecrets = { portalClientSecret },
