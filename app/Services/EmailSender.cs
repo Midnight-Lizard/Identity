@@ -49,8 +49,8 @@ namespace MidnightLizard.Web.Identity.Services
         {
             var html = HtmlEncoder.Default;
             var message = (await this.emailConfirmationTemplate)
-                .Replace("{user:dispaly-name}", html.Encode(userDispalyName))
-                .Replace("{user:email}", html.Encode(userEmail))
+                .Replace("{user:dispaly-name}", html.Encode(userDispalyName ?? "dear user"))
+                .Replace("{user:email}", html.Encode(userEmail ?? "hidden"))
                 .Replace("{callback:link}", html.Encode(callbackLink));
 
             await this.SendEmailAsync(userEmail, "Confirm your email", message);

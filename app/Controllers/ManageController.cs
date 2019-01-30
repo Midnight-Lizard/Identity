@@ -592,7 +592,8 @@ namespace MidnightLizard.Web.Identity.Controllers
         public async Task<IActionResult> SendVerificationEmailToAllUsers()
         {
             var result = "The following users have been notified:";
-            foreach (var user in this._userManager.Users.Where(x => x.EmailConfirmed == false))
+            foreach (var user in this._userManager.Users
+                .Where(x => x.EmailConfirmed == false && x.Email != null))
             {
                 result += "/n" + user.Email;
                 await this.SendVerificationEmailToTheUserAsync(user);
