@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MidnightLizard.Web.Identity.Models;
 using MidnightLizard.Web.Identity.Models.ManageViewModels;
+using MidnightLizard.Web.Identity.Security.Claims;
 using MidnightLizard.Web.Identity.Services;
 using Newtonsoft.Json;
 using System;
@@ -132,13 +133,18 @@ namespace MidnightLizard.Web.Identity.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{this._userManager.GetUserId(this.User)}'.");
             }
 
+            await this.SendVerificationEmailToTheUserAsync(user);
+
+            this.StatusMessage = "Verification email sent. Please check your email. (Including spam folder)";
+            return this.RedirectToAction(nameof(Index));
+        }
+
+        private async Task SendVerificationEmailToTheUserAsync(ApplicationUser user)
+        {
             var code = await this._userManager.GenerateEmailConfirmationTokenAsync(user);
             var callbackUrl = this.Url.EmailConfirmationLink(user.Id, code, this.Request.Scheme);
             var email = user.Email;
-            await this._emailSender.SendEmailConfirmationAsync(email, callbackUrl);
-
-            this.StatusMessage = "Verification email sent. Please check your email.";
-            return this.RedirectToAction(nameof(Index));
+            await this._emailSender.SendEmailConfirmationRequestAsync(user.DisplayName, email, callbackUrl);
         }
 
         [HttpGet]
@@ -580,6 +586,18 @@ namespace MidnightLizard.Web.Identity.Controllers
             this._logger.LogInformation("User with ID '{UserId}' deleted themselves.", this._userManager.GetUserId(this.User));
 
             return this.Redirect("~/");
+        }
+
+        [Authorize(Roles = nameof(AppRole.Owner))]
+        public async Task<IActionResult> SendVerificationEmailToAllUsers()
+        {
+            var result = "The following users have been notified:";
+            foreach (var user in this._userManager.Users.Where(x => x.EmailConfirmed == false))
+            {
+                result += "/n" + user.Email;
+                await this.SendVerificationEmailToTheUserAsync(user);
+            }
+            return this.Content(result);
         }
 
         #region Helpers

@@ -247,7 +247,7 @@ namespace MidnightLizard.Web.Identity.Controllers
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                    await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                    await _emailSender.SendEmailConfirmationRequestAsync(model.DisplayName, model.Email, callbackUrl);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
@@ -389,7 +389,7 @@ namespace MidnightLizard.Web.Identity.Controllers
                     {
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                        await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                        await _emailSender.SendEmailConfirmationRequestAsync(model.DisplayName, model.Email, callbackUrl);
 
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
@@ -445,8 +445,7 @@ namespace MidnightLizard.Web.Identity.Controllers
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
-                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+                await _emailSender.SendPasswordResetRequestAsync(user.DisplayName, model.Email, callbackUrl);
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 
