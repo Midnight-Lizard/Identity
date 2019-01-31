@@ -349,8 +349,6 @@ namespace MidnightLizard.Web.Identity.Controllers
                 // If the user does not have an account, then ask the user to create an account.
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
-                _logger.LogError("External login claims {claims}",
-                    string.Join("; ", info.Principal.Claims));
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
                 var name = info.Principal.FindFirstValue(ClaimTypes.Name);
                 return View("ExternalLogin", new ExternalLoginViewModel
