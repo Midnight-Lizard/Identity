@@ -96,7 +96,7 @@ namespace MidnightLizard.Web.Identity.Configuration
                     AllowOfflineAccess = true,
                     AccessTokenLifetime = (int)portalServerAccessTokenLifetime,
                     AbsoluteRefreshTokenLifetime = (int)TimeSpan.FromDays(15).TotalSeconds,
-                    SlidingRefreshTokenLifetime = (int)TimeSpan.FromDays(7).TotalSeconds,
+                    SlidingRefreshTokenLifetime = (int)TimeSpan.FromDays(2).TotalSeconds,
                     RefreshTokenUsage = TokenUsage.ReUse,
                     RefreshTokenExpiration = TokenExpiration.Sliding,
                     UpdateAccessTokenClaimsOnRefresh = true,
