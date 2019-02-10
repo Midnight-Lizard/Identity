@@ -44,6 +44,7 @@ gce-deploy:
     --set secrets.identityService.email=$IDENTITY_SERVICE_EMAIL
     --set secrets.identityService.displayName=$IDENTITY_SERVICE_DISPLAY_NAME
     --set secrets.portal.clientSecret=$IDENTITY_PORTAL_CLIENT_SECRET
+    --set secrets.impressionsCommander.apiSecret=$IDENTITY_IMPRESSIONS_COMMANDER_API_SECRET
     --set secrets.schemesCommander.apiSecret=$IDENTITY_SCHEMES_COMMANDER_API_SECRET
     --set secrets.schemesQuerier.apiSecret=$IDENTITY_SCHEMES_QUERIER_API_SECRET
     --set secrets.owners.emailsJsonArray=$IDENTITY_OWNER_EMAILS_JSON_ARRAY

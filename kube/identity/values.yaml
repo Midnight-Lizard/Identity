@@ -36,6 +36,8 @@ secrets:
     displayName: "base64 encoded value"
   portal:
     clientSecret: "base64 encoded value"
+  impressionsCommander:
+    apiSecret: "base64 encoded value"
   schemesCommander:
     apiSecret: "base64 encoded value"
   schemesQuerier:
