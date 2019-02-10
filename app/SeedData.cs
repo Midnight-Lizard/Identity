@@ -59,7 +59,7 @@ namespace MidnightLizard.Web.Identity
                 select newOwnerEmail)
             {
                 var newOwner = await UserManager.FindByEmailAsync(newOwnerEmail);
-                if (newOwner != null)
+                if (newOwner != null && newOwner.EmailConfirmed)
                 {
                     await UserManager.AddToRoleAsync(newOwner, nameof(AppRole.Owner));
                 }
