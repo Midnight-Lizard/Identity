@@ -40,7 +40,7 @@ namespace MidnightLizard.Web.Identity
 
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
             {
-                // config.SignIn.RequireConfirmedEmail = true;
+                config.SignIn.RequireConfirmedEmail = true;
             })
                 .AddClaimsPrincipalFactory<AppClaimsPrincipalFactory>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
