@@ -13,6 +13,8 @@ namespace MidnightLizard.Web.Identity.Configuration
             var portalSystemAccessTokenLifetime = configuration.GetValue<double>("IDENTITY_PORTAL_SYSTEM_ACCESS_TOKEN_LIFETIME");
             var portalServerAccessTokenLifetime = configuration.GetValue<double>("IDENTITY_PORTAL_SERVER_ACCESS_TOKEN_LIFETIME");
             var portalUrl = configuration.GetValue<string>("PORTAL_URL");
+            var schmCmdrUri = new Uri(configuration.GetValue<string>("SCHEMES_COMMANDER_URL") ?? "http://localhost:7008");
+            var imprCmdrUri = new Uri(configuration.GetValue<string>("IMPRESSIONS_COMMANDER_URL") ?? "http://localhost:7009");
             var portalClientSecret = new Secret(configuration.GetValue<string>("IDENTITY_PORTAL_CLIENT_SECRET").Sha256());
             var portalUri = new Uri(portalUrl ?? "http://localhost:7000");
 
@@ -141,6 +143,30 @@ namespace MidnightLizard.Web.Identity.Configuration
                         Resources.Api.SchemesQuerier
                     }
                 },
+                new Client {
+                    ClientId = $"{Resources.Api.SchemesCommander}-swagger",
+                    ClientName = "Swagger UI for Schemes Commander Api",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+                    RedirectUris = {
+                        new Uri(schmCmdrUri, "oauth2-redirect.html").AbsoluteUri
+                    },
+                    AllowedScopes = {
+                        Resources.Api.SchemesCommander
+                    }
+                },
+                new Client {
+                    ClientId = $"{Resources.Api.ImpressionsCommander}-swagger",
+                    ClientName = "Swagger UI for Impressions Commander Api",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+                    RedirectUris = {
+                        new Uri(imprCmdrUri, "oauth2-redirect.html").AbsoluteUri
+                    },
+                    AllowedScopes = {
+                        Resources.Api.ImpressionsCommander
+                    }
+                }
             };
         }
     }
