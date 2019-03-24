@@ -48,7 +48,7 @@ env:
   ASPNETCORE_ENVIRONMENT: Production
   PORTAL_URL: https://midnight-lizard.org
   IDENTITY_URL: https://identity.midnight-lizard.org
-  SCHEMES_COMMANDER_URL: https://midnight-lizard.org/schemes/commander
-  IMPRESSIONS_COMMANDER_URL: https://midnight-lizard.org/impressions/commander
+  SCHEMES_COMMANDER_URL: https://midnight-lizard.org/schemes/commander/
+  IMPRESSIONS_COMMANDER_URL: https://midnight-lizard.org/impressions/commander/
   IDENTITY_PORTAL_SYSTEM_ACCESS_TOKEN_LIFETIME: 3600
   IDENTITY_PORTAL_SERVER_ACCESS_TOKEN_LIFETIME: 3600
