@@ -148,6 +148,7 @@ namespace MidnightLizard.Web.Identity.Configuration
                     ClientName = "Swagger UI for Schemes Commander Api",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false,
                     RedirectUris = {
                         new Uri(schmCmdrUri, "oauth2-redirect.html").AbsoluteUri
                     },
@@ -160,6 +161,7 @@ namespace MidnightLizard.Web.Identity.Configuration
                     ClientName = "Swagger UI for Impressions Commander Api",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false,
                     RedirectUris = {
                         new Uri(imprCmdrUri, "oauth2-redirect.html").AbsoluteUri
                     },
