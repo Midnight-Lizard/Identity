@@ -146,7 +146,7 @@ namespace MidnightLizard.Web.Identity.Configuration
                 new Client {
                     ClientId = $"{Resources.Api.SchemesCommander}-swagger",
                     ClientName = "Swagger UI for Schemes Commander Api",
-                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true,
                     RequireConsent = false,
@@ -160,7 +160,7 @@ namespace MidnightLizard.Web.Identity.Configuration
                 new Client {
                     ClientId = $"{Resources.Api.ImpressionsCommander}-swagger",
                     ClientName = "Swagger UI for Impressions Commander Api",
-                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true,
                     RequireConsent = false,
