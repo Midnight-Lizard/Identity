@@ -150,6 +150,7 @@ namespace MidnightLizard.Web.Identity.Configuration
                     AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true,
                     RequireConsent = false,
+                    RequireClientSecret = false,
                     RedirectUris = {
                         new Uri(schmCmdrUri, "oauth2-redirect.html").AbsoluteUri
                     },
@@ -164,6 +165,7 @@ namespace MidnightLizard.Web.Identity.Configuration
                     AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true,
                     RequireConsent = false,
+                    RequireClientSecret = false,
                     RedirectUris = {
                         new Uri(imprCmdrUri, "oauth2-redirect.html").AbsoluteUri
                     },
