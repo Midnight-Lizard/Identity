@@ -595,7 +595,7 @@ namespace MidnightLizard.Web.Identity.Controllers
             foreach (var user in this._userManager.Users
                 .Where(x => x.EmailConfirmed == false && x.Email != null))
             {
-                result += "/n" + user.Email;
+                result += "\n" + user.Email;
                 await this.SendVerificationEmailToTheUserAsync(user);
             }
             return this.Content(result);
